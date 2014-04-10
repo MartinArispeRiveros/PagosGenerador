@@ -1,0 +1,15 @@
+require File.expand_path(File.dirname(__FILE__) + '/empleado')
+require File.expand_path(File.dirname(__FILE__) + '/generador_cheque')
+require File.expand_path(File.dirname(__FILE__) + '/cheque')
+require File.expand_path(File.dirname(__FILE__) + '/contrato_mensual')
+require File.expand_path(File.dirname(__FILE__) + '/clasificador_salario_fijo')
+require ('date')
+require File.expand_path(File.dirname(__FILE__) + '/consola')
+
+consola = Consola.new
+generador = GeneradorCheque.new(Date.today)
+empleado = Empleado.new('3343', 'Juan', 'Perez', Date.new(2012,1,1), ContratoMensual.new)
+empleado.clasificador_salario = ClasificadorSalarioFijo.new(300, Date.new(2012,1,1))
+empleado.asignar_salario_fijo(1000)
+cheque = generador.ejecutar(empleado)
+consola.imprimir_cheque(cheque)

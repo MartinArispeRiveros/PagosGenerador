@@ -1,0 +1,55 @@
+<form class="form-horizontal" action="/asignar_salario/:ci" method="post">
+<fieldset>
+
+  <input type="hidden" name="_method" value="<%= @empleado.ci %>" />
+
+	<legend>Asignar Salario y Descuento</legend> 
+
+	  <% if @empleado.contrato == "Quincenal" %>
+
+	  	<div class="form-group">
+		  <label class="col-md-4 control-label" for="empleado_monto_por_hora">Monto por hora:</label><br />
+		  <div class="col-md-4">
+		  	<input id="empleado_monto_por_hora" name="empleado[salario]" type="text" class="form-control input-md" value="<%= @empleado.monto_por_hora %>" />
+		  	<br />
+		  </div>
+		</div>
+
+	  <% else %>
+	  	
+	  	<div class="form-group">
+		  <label class="col-md-4 control-label" for="empleado_salario">Salario Fijo:</label><br />
+		  <div class="col-md-4">
+		  	<input id="empleado_salario" name="empleado[salario]" type="text" class="form-control input-md" value="<%= @empleado.salario %>" />
+		  	<br /> 
+		  </div>
+		</div>
+
+	  <% end %>
+
+	  <% if @empleado.pertenece_sindicato == true %>
+	  	
+	  	<div class="form-group">
+		  <label class="col-md-4 control-label" for="empleado_descuento_fijo_sindicato">Descuento por sindicato:</label><br />
+		  <div class="col-md-4">
+		  	<input id="empleado_descuento_fijo_sindicato" name="empleado[salario]" type="text" class="form-control input-md" value="<%= @empleado.descuento_fijo_sindicato %>" />
+		  	<br />
+		  </div>
+		</div>
+
+	  <% else %>
+	  	
+	  	<div class="form-group">
+		  <center>Este empleado no pertenece al sindicato</center> 
+		  <br />
+		</div>
+
+	  <% end %>
+
+	  <div class="form-group">
+	  	<div class="col-md-8">
+	  	<center><input type="submit" value="Asignar salario y descuento" class="btn btn-primary"/></center>	
+	  	</div>
+	  </div>
+  </fieldset>
+</form> 

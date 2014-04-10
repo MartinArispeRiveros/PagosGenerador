@@ -1,0 +1,22 @@
+<% require "date" %>
+
+<h1>Cheque para Empleado</h1>
+<p>
+  <b>Ci:</b>
+  <%= @empleado.ci %>
+</p>
+
+<p>
+  <b>Beneficiario:</b>
+  <%= @empleado.nombre %> <%= @empleado.apellido %>
+</p>
+
+<p>
+  <b>Monto:</b>
+  <%= @empleado.salario %>
+</p>
+
+<p>
+  <b>fecha de emision:</b>
+  <%= Date.today %>
+</p>

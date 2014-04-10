@@ -1,0 +1,26 @@
+<center><h3> </h3></center>
+ <table class='table table-bordered'>
+		<tr class='info'>
+		  <th><center>CARNET</center></th>
+		  <th><center>NOMBRE(S)</center></th>
+		  <th><center>APELLIDO(S)</center></th>
+		  <th></th>
+		  <th></th>
+		  <th></th>
+		  <th></th>
+		  
+		</tr>
+
+		<% @empleados.each do |empleado| %>
+		  <tr class='active'>
+		    <td><center><%= empleado.ci %></center></td>
+		    <td><center><%= empleado.nombre %></center></td>
+		    <td><center><%= empleado.apellido %></center></td>
+		    <td><a href="/edit/<%= empleado.ci %>"><center>Editar</center></a></td>
+		    <td><a href="/show/<%= empleado.ci %>"><center>Mostrar</center></a></td>
+		    <td><a href="/delete/<%= empleado.ci %>"><center>Eliminar</center></a></td>
+		  	<td><a href="/asignar_salario/<%= empleado.ci %>"><center>Asignar Salario</center></a></td>
+		  </tr>
+		<% end %>
+	</table>
+	<center><a href="/check_index">Generar Cheques Para Nomina de Emplados</a></center>

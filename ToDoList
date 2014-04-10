@@ -1,0 +1,49 @@
+ToDO
+-------------
+- Entender la lógica de negocio del sistemageneradorpagos (Diagrama de clases UML)
+- Tomar en cuenta toda la información necesaria para crear empleado
+- modificar y eliminar empleado (solo en memoria sin persistencia)
+- Generar cheques/pagos de la lista de empleados
+ 
+- Persitir la información de empleados en la BD
+- Crear una maquina virtual con todo las tecnilogias y gemas necesarias para el proyecto
+- Anadir la nueva funcionalidad al proyecto
+- Generar cheque para empleado por hora
+    -[ok] El empleado debe tener un pago por hora
+    -[ok] Anadir tarjeta de tiempo horario
+        (Fecha, id_empleado, hora_ingreso, hora_salida, ...)
+    [?] Generar el cheque cada 2 semanas los viernes
+        -Control de que se cada dos semanas, se esta generando
+        todos los viernes
+
+
+
+Done
+------------
+[DONE] Crear empleado (solo en memoria sin persistencia)
+[DONE] Mejorar el aspecto de la UI de lista empleados (index)
+[ok] Anadir framework sinatra para la UI 
+[ok] Crear una UI muy simple usando sintra (Index donde se muestre la lista de empleados, los empleados se crearan solo en memoria, objetos empleado, nada todavia con base de datos)
+[ok]Revisar la claridad del metodo prorratear salario de empleado
+[ok] Corregir error se actualiza el salario del empleado al prorrateado
+-???PENDING Añadir un spec que demuestre este error
+
+[ok 20130401] El empleado tiene algunos datos requeridos para su creacion:
+   [ok]nombre, apellido, ci, fecha_contrato
+   [ok]borrar dos tests de set get
+[ok]Analizar y corregir acoplamiento de cheque con empleado
+    - revisar ejecutar de generador
+[ok] Verificar la responsabilidad de crear IU en generadorCheque, consola
+
+[ok]se puede simplificar set y gets de empleado usando attr_reader?
+
+[ok] Realizar la verificacion de que solo se les paga a fin de mes
+
+- Aplicar descuentos del sindicato
+    [ok] Descuento fijo
+    - Descuento variable por servicios ofrecidos
+        -[ok] Anadir de Tarjetas de descuento por servicios al sindicato
+            (Fecha, id_Empleado, monto, descripcion,..)
+        -[ok]Aplicar los descuentos por esas tarjetas
+
+

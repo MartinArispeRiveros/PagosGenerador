@@ -1,0 +1,5 @@
+- Debemos marcar con OK en el archivo ToDoList las tareas que implementaste
+
+Versiones:
+  - Ruby 1.9.3
+  - Los specs se deberían poder ejecutar tambien desde consola
