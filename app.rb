@@ -5,21 +5,20 @@ require './lib/clasificador_salario_fijo'
 require './lib/contrato_mensual'
 require './lib/contrato_quincenal'
 require './lib/contrato_trimestral'
+require './lib/generador_cheque'
+require './lib/tarjeta_de_tiempo'
+require './lib/tarjeta_de_servicio'
 require './repositorio'
 require ('date')
-require './cheques'
 require './lib/cheque'
 #require './lib/generador_cheques'
 
 
 $empleados_gestor = Repositorio.new
-#empleado.salario = 0
-#empleado.descuento_fijo_sindicato = 0
-$cheques = Cheques.new
-
+$cheques_gestor = GeneradorCheque.new(Date.today)
 
 get '/' do
-  @empleados = $empleados_gestor.obtenerTodos
+  @empleados = $empleados_gestor.obtener_empleados
   erb :"index"
 end
 
@@ -28,28 +27,17 @@ get '/new' do
 end
 
 post '/crear_empleado' do 
-
   empleado = Empleado.crear_empleado(params[:empleado][:ci],
                                      params[:empleado][:nombre],
                                      params[:empleado][:apellido],
                                      params[:empleado][:fecha],
                                      params[:empleado][:salario],
                                      params[:empleado][:tipo_contrato],
-                                     params[:empleado][:tipo_salario])
+                                     params[:empleado][:tipo_salario],
+                                     params[:empleado][:pertenece_sindicato])
   $empleados_gestor.adicionar(empleado)
-  @empleados = $empleados_gestor.obtenerTodos
+  @empleados = $empleados_gestor.obtener_empleados
   erb :"index"
-end
-
-get '/asignar_salario/:ci' do
-  @empleado = $empleados_gestor.buscar_por_ci(params[:ci])
-  erb :"salario"
-end
-
-post '/asignar_salario/:ci' do
-   empleado = $empleados_gestor.buscar_por_ci(params[:ci])
-   @empleados = $empleados_gestor.obtenerTodos
-   erb :"index"
 end
 
 get '/edit/:ci' do
@@ -79,14 +67,16 @@ post '/actualizar_empleado/:ci' do
   
   if (params[:empleado][:tipo_salario] == 'fijo')
     empleado.clasificador_salario = ClasificadorSalarioFijo.new(params[:empleado][:fecha], params[:empleado][:salario])
+    empleado.tipo_salario = "fijo"
   end
   if (params[:empleado][:tipo_hora] == 'hora')
     empleado.clasificador_salario = ClasificadorPorHora.new(params[:empleado][:salario])
+    empleado.tipo_salario = 'hora'
   end
 
   
   if ($empleados_gestor.actualizar(empleado))  
-    @empleados = $empleados_gestor.obtenerTodos
+    @empleados = $empleados_gestor.obtener_empleados
     erb :"index"
   end
 end
@@ -103,13 +93,6 @@ get '/delete/:ci' do
   erb :"delete"
 end
 
-#genarate check
-get "/check_index" do
-  @empleados = $empleados_gestor.obtenerTodos
-  @cheques = $cheques.generar_cheques_para_lista(@empleados)
-  erb :"check_index"
-end
-
 get '/add' do
   empl_params = Hash.new
   empl_params[:ci] = '123'
@@ -118,7 +101,70 @@ get '/add' do
   empl_params[:fecha_contrato] = Date.new(2012,2,1)
   empl_params[:tipo_contrato] = '1'
   $empleados_gestor.adicionar(empl_params)
-  @empleados = $empleados_gestor.obtenerTodos
+  @empleados = $empleados_gestor.obtener_empleados
   erb :"index"
 end
 
+get '/add_check/:ci' do
+  @empleado = $empleados_gestor.buscar_por_ci(params[:ci])
+  @cheque = $cheques_gestor.ejecutar(@empleado)
+  if @cheque != nil
+    $empleados_gestor.adicionar_cheque(@cheque)
+    erb :"add_check"
+  else
+    erb :"not_check"  
+  end
+end
+
+get '/checks' do
+  @empleados = $empleados_gestor.obtener_empleados
+  @empleados.each do |empleado|
+    if empleado.check == false
+      cheque = $cheques_gestor.ejecutar(empleado)
+      if cheque != nil
+        $empleados_gestor.adicionar_cheque(cheque)
+        empleado.check=true
+        $empleados_gestor.actualizar(empleado)
+      end
+    end
+  end
+  if $empleados_gestor.obtener_cheques != []
+    @cheques = $empleados_gestor.obtener_cheques
+    erb :"checks"    
+  else
+    erb :"not_checks"
+  end
+end
+
+get '/timecard/:ci' do
+  @empleado = $empleados_gestor.buscar_por_ci(params[:ci])
+  erb :"timecard"
+end
+
+get '/servicecard/:ci' do
+  @empleado = $empleados_gestor.buscar_por_ci(params[:ci])
+  erb :"servicecard"
+end
+
+post '/create_timecard/:ci' do
+  @empleado = $empleados_gestor.buscar_por_ci(params[:timecard][:id_empleado])
+  @tarjeta = TarjetaDeTiempo.new(params[:timecard][:fecha],params[:timecard][:id_empleado],params[:timecard][:hora_ingreso],params[:timecard][:hora_salida])
+  if @tarjeta.fecha != "" || @tarjeta.hora_ingreso != "" || @tarjeta.hora_salida != ""
+    @empleado.registrar_tarjeta_de_tiempo(@tarjeta)
+    @tarjetas = @empleado.tarjetas_de_tiempo(params[:timecard][:id_empleado])
+    erb :"timecard_index" 
+  else
+   erb :"timecard" 
+  end
+
+end
+
+post '/create_servicecard/:ci' do
+  @empleado = $empleados_gestor.buscar_por_ci(params[:servicecard][:id_empleado])
+  @tarjeta = TarjetaDeServicio.new(params[:servicecard][:fecha],params[:servicecard][:id_empleado],params[:servicecard][:monto].to_i,params[:servicecard][:descripcion])
+  
+    @empleado.registrar_tarjeta_de_servicio(@tarjeta)
+    @tarjetas = @empleado.obtener_tarjetas_de_servicio(params[:servicecard][:id_empleado])
+    erb :"servicecard_index"
+  
+end

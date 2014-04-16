@@ -23,8 +23,24 @@
 	<b>Tipo de contrato:</b>
 	<%= @empleado.contrato %>
 </p>
-	
+
+<p>
+	<b>Tipo de salario:</b>
+	<%= @empleado.tipo_salario %>
+</p>
+
 <p>
 	<b>Salario:</b>
 	<%= @empleado.salario%>
+</p>
+
+<p>
+	<b>Pertenece a sindicato:</b>
+
+	<% if @empleado.pertenece_sindicato == true %>
+	Si
+	<%else%>
+	No
+	<%end%>
+
 </p>

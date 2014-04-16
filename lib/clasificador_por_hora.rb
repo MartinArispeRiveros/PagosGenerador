@@ -1,3 +1,4 @@
+require ('date')
 class ClasificadorPorHora
   attr_writer :monto_por_hora
 
@@ -15,4 +16,14 @@ class ClasificadorPorHora
   def registrar_tarjeta_de_tiempo(tarjeta_de_tiempo)
     @tarjetas_de_tiempo.push(tarjeta_de_tiempo)
   end
+
+  def obtener(ci)
+    @tarjetas_de_tiempo.each do |tarjeta_de_tiempo|
+      if tarjeta_de_tiempo.id_empleado == ci
+        @tarjeta_de_tiempo = tarjeta_de_tiempo
+      end
+    end
+  end
 end
+
+

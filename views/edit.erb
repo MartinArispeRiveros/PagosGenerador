@@ -58,8 +58,8 @@
   <label class="col-md-4 control-label" for="tipo_salario">Tipo de Salario:</label>
   <div class="col-md-4">
     <select id="empleado_tipo_salario" name="empleado[tipo_salario]" class="form-control">
-      <option value="fijo">Fijo</option>
-      <option value="hora">Por Hora</option>
+      <option value="fijo" <%= 'selected' if @empleado.tipo_salario == 'fijo' %> >Fijo</option>
+      <option value="hora" <%= 'selected' if @empleado.tipo_salario == 'hora' %>>Por Hora</option>
     </select>
   </div>
 </div>

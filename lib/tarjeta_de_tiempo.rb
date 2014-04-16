@@ -1,6 +1,8 @@
 require('date')
-
 class TarjetaDeTiempo
+	
+	attr_accessor :fecha, :id_empleado, :hora_ingreso, :hora_salida
+
 	def initialize(fecha,id_empleado,hora_ingreso,hora_salida)
 		@fecha = fecha
 		@id_empleado = id_empleado

@@ -1,3 +1,4 @@
+require ('date')
 class ClasificadorSalarioFijo
   attr_writer :salario, :fecha_inicio_contrato
 
@@ -30,9 +31,22 @@ class ClasificadorSalarioFijo
   end
 
   def ha_sido_contratado_este_mes?(fecha_ejecucion)
-    @fecha_inicio_contrato.month==fecha_ejecucion.month &&
+
+=begin
+   @inicio_contrato = [] 
+   @inicio_contrato.push(@fecha_inicio_contrato.split('/'))
+
+   @ejecucion = []
+   @ejecucion.push(@fecha_ejecucion.split('/'))
+
+   @contrato = Date.new(@inicio_contrato[0],@inicio_contrato[1],@inicio_contrato[2])
+   @ejecu = Date.new(@ejecucion[0],@ejecucion[1],@ejecucion[2])
+=end
+    
+    @fecha_inicio_contrato.mon==fecha_ejecucion.mon &&
         @fecha_inicio_contrato.year==fecha_ejecucion.year
   end
-
+  
+  
 
 end
