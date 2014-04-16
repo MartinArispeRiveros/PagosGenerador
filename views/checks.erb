@@ -1,0 +1,18 @@
+<center><h3></h3></center>
+ <table class='table table-bordered'>
+		<tr class='info'>
+		  <th>CARNET</th>
+		  <th>BENEFICIARIO</th>
+		  <th>MONTO</th>
+		  <th>FECHA EMISION</th>		 		 
+		</tr>
+
+		<% @cheques.each do |cheque| %>
+		  <tr class='active'>
+		    <td><%= cheque.ci %></td>
+		    <td><%= cheque.beneficiario %></td>
+		    <td><%= cheque.monto%></td>
+		    <td><%= cheque.fecha_emision%></td>
+		  </tr>
+		<% end %>
+	</table>

@@ -1,6 +1,38 @@
-<form class="form-horizontal" action="/asignar_salario/:ci" method="post">
+<form class="form-horizontal" action="/guardar_salario/:ci" method="post">
 <fieldset>
 
+<!-- Form Name -->
+<legend>Editar Empleado</legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="salario">Salario:</label>  
+  <div class="col-md-4">
+  <input id="empleado_salario" name="empleado[salario]" type="text" placeholder="salario" class="form-control input-md" required="" value="<%= @empleado.salario %>">
+    
+  </div>
+</div>  
+
+
+<!-- Button (Double) -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="confirmar"></label>
+  <div class="col-md-8">
+	  <input id="crear" type="submit" value="Asignar" class="btn btn-primary" />
+    <button id="cancelar" name="cancelar" class="btn btn-primary">Cancelar</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+
+
+
+
+
+
+
+<!--
   <input type="hidden" name="_method" value="<%= @empleado.ci %>" />
 
 	<legend>Asignar Salario y Descuento</legend> 
@@ -52,4 +84,4 @@
 	  	</div>
 	  </div>
   </fieldset>
-</form> 
+</form> --> 

@@ -1,0 +1,31 @@
+<form class="form-horizontal" action="/create_timecard/:ci" method="post">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Registrar Tarjetas de Tiempo</legend>
+  
+  <div class="form-group">
+	<label class="col-md-4 control-label" for="fecha">Fecha de la tarjeta:</label><br />
+	<input id="fecha" name="timecard[fecha]" type="date" />
+	<br />
+  </div>
+
+  <div class="form-group">
+	<label class="col-md-4 control-label" for="timecard_hora_ingreso">Hora de ingreso:</label><br />
+	<input id="timecard_hora_ingreso" name="timecard[hora_ingreso]" type="time" />
+	<br />
+  </div>
+
+  <div class="form-group">
+	<label class="col-md-4 control-label" for="timecard_hora_salida">Hora de salida:</label><br />
+	<input id="timecard_hora_salida" name="timecard[hora_salida]" type="time"  />
+	<br />
+  </div>
+
+  <input type="hidden" id="timecard_id_empleado" name="timecard[id_empleado]" value=<%= @empleado.ci %> />
+
+<div class="col-md-8">
+  	<input type="submit" value="Crear tarjeta" class="btn btn-primary" />
+  </div>
+  </fieldset>
+</form>

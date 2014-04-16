@@ -1,0 +1,31 @@
+<form class="form-horizontal" action="/create_servicecard/:ci" method="post">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Registrar Tarjetas de Tiempo</legend>
+  
+  <div class="form-group">
+	<label class="col-md-4 control-label" for="fecha">Fecha de la tarjeta:</label><br />
+	<input id="fecha" name="servicecard[fecha]" type="date" />
+	<br />
+  </div>
+
+  <div class="form-group">
+	<label class="col-md-4 control-label" for="servicecard_monto">Monto:</label><br />
+	<input id="servicecard_monto" name="servicecard[monto]" type="text" />
+	<br />
+  </div>
+
+  <div class="form-group">
+	<label class="col-md-4 control-label" for="servicecard_descripcion">Descripcion:</label><br />
+	<input id="servicecard_descripcion" name="servicecard[descripcion]" type="text"  />
+	<br />
+  </div>
+
+  <input type="hidden" id="servicecard_id_empleado" name="servicecard[id_empleado]" value=<%= @empleado.ci %> />
+
+<div class="col-md-8">
+  	<input type="submit" value="Crear tarjeta" class="btn btn-primary" />
+  </div>
+  </fieldset>
+</form>
