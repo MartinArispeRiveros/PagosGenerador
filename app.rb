@@ -34,7 +34,8 @@ post '/crear_empleado' do
                                      params[:empleado][:salario],
                                      params[:empleado][:tipo_contrato],
                                      params[:empleado][:tipo_salario],
-                                     params[:empleado][:pertenece_sindicato])
+                                     params[:empleado][:pertenece_sindicato],
+                                     params[:empleado][:descuento_sindicato])
   $empleados_gestor.adicionar(empleado)
   @empleados = $empleados_gestor.obtener_empleados
   erb :"index"
@@ -74,6 +75,14 @@ post '/actualizar_empleado/:ci' do
     empleado.tipo_salario = 'hora'
   end
 
+  empleado.salario = params[:empleado][:salario]
+
+  if (params[:empleado][:pertenece_sindicato] = true)
+    empleado.pertenece_sindicato = true
+  end
+  if (params[:empleado][:pertenece_sindicato] = false)
+    empleado.pertenece_sindicato = false
+  end
   
   if ($empleados_gestor.actualizar(empleado))  
     @empleados = $empleados_gestor.obtener_empleados
@@ -141,9 +150,21 @@ get '/timecard/:ci' do
   erb :"timecard"
 end
 
+get '/timecard_index/:ci' do
+  @empleado = $empleados_gestor.buscar_por_ci(params[:ci])
+  @tarjetas = @empleado.tarjetas_de_tiempo(params[:ci])
+  erb :"timecard_index"
+end
+
 get '/servicecard/:ci' do
   @empleado = $empleados_gestor.buscar_por_ci(params[:ci])
   erb :"servicecard"
+end
+
+get '/servicecard_index/:ci' do
+  @empleado = $empleados_gestor.buscar_por_ci(params[:ci])
+  @tarjetas = @empleado.obtener_tarjetas_de_servicio(params[:ci])
+  erb :"servicecard_index"
 end
 
 post '/create_timecard/:ci' do
@@ -156,7 +177,6 @@ post '/create_timecard/:ci' do
   else
    erb :"timecard" 
   end
-
 end
 
 post '/create_servicecard/:ci' do
@@ -166,5 +186,4 @@ post '/create_servicecard/:ci' do
     @empleado.registrar_tarjeta_de_servicio(@tarjeta)
     @tarjetas = @empleado.obtener_tarjetas_de_servicio(params[:servicecard][:id_empleado])
     erb :"servicecard_index"
-  
 end

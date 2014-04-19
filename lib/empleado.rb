@@ -1,14 +1,14 @@
 require('date')
 class Empleado
-  attr_accessor :nombre, :apellido, :ci, :fecha_inicio_contrato, :contrato, :salario, :pertenece_sindicato, :tipo_salario, :check
+  attr_accessor :nombre, :apellido, :ci, :fecha_inicio_contrato, :contrato, :salario, :pertenece_sindicato, :tipo_salario, :check, :descuento_fijo_por_sindicato
   attr_writer :clasificador_salario, :clasificador_contrato
 
-  def initialize(ci, nombre, apellido, fecha_inicio_contrato,clasificador_contrato,contrato,salario,clasificador_salario, tipo_salario, pertenece_sindicato)
+  def initialize(ci, nombre, apellido, fecha_inicio_contrato,clasificador_contrato,contrato,salario,clasificador_salario, tipo_salario, pertenece_sindicato,descuento_fijo_por_sindicato)
     @ci = ci
     @nombre = nombre
     @apellido = apellido
     @fecha_inicio_contrato = fecha_inicio_contrato
-    @descuento_fijo_por_sindicato = 0
+    @descuento_fijo_por_sindicato = descuento_fijo_por_sindicato
     @tarjetas_de_servicio = Array.new
     @descuento_por_servicios = 0
     @clasificador_contrato=clasificador_contrato
@@ -24,7 +24,7 @@ class Empleado
                           fecha_inicio_contrato,
                           salario,
                           tipo_contrato, 
-                          tipo_salario, pertenece_sindicato)
+                          tipo_salario, pertenece_sindicato, descuento_fijo_por_sindicato)
                           
     if (tipo_contrato == 'mensual')
       clasificador_contrato = ContratoMensual.new
@@ -52,7 +52,7 @@ class Empleado
 
     empleado = Empleado.new(ci,nombre, apellido, 
                                     fecha_inicio_contrato,
-                                    clasificador_contrato, contrato, salario, clasificador_salario, tipo_salario, pertenece_sindicato)
+                                    clasificador_contrato, contrato, salario, clasificador_salario, tipo_salario, pertenece_sindicato, descuento_fijo_por_sindicato)
      
     return empleado
 

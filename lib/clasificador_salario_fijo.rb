@@ -43,7 +43,7 @@ class ClasificadorSalarioFijo
    @ejecu = Date.new(@ejecucion[0],@ejecucion[1],@ejecucion[2])
 =end
     
-    @fecha_inicio_contrato.mon==fecha_ejecucion.mon &&
+    @fecha_inicio_contrato.month == fecha_ejecucion.month &&
         @fecha_inicio_contrato.year==fecha_ejecucion.year
   end
   

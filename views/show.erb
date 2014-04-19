@@ -42,5 +42,17 @@
 	<%else%>
 	No
 	<%end%>
-
 </p>
+
+<p>
+	<b>Descuento fijo por sindicato:</b>
+	<%= @empleado.descuento_fijo_por_sindicato %>
+</p>
+<% if @empleado.tipo_salario == "hora" %>
+<a href="/timecard_index/<%= @empleado.ci %>" class="btn btn-success"><center>Ver tarjetas de tiempo</center></a>
+<% end %>
+<% if @empleado.pertenece_sindicato == true %>
+<a href="/servicecard_index/<%= @empleado.ci %>" class="btn btn-success"><center>Ver tarjetas de servicio</center></a>
+<% end %>
+
+<a href="/" class="btn btn-primary"><center>Volver</center></a>
