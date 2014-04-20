@@ -1,5 +1,6 @@
 require ('date')
 class ClasificadorPorHora
+  
   attr_writer :monto_por_hora
 
   def initialize(monto_por_hora)

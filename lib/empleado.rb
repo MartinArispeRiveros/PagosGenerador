@@ -1,5 +1,7 @@
 require('date')
+
 class Empleado
+  
   attr_accessor :nombre, :apellido, :ci, :fecha_inicio_contrato, :contrato, :salario, :pertenece_sindicato, :tipo_salario, :check, :descuento_fijo_por_sindicato
   attr_writer :clasificador_salario, :clasificador_contrato
 
@@ -52,12 +54,12 @@ class Empleado
 
     empleado = Empleado.new(ci,nombre, apellido, 
                                     fecha_inicio_contrato,
-                                    clasificador_contrato, contrato, salario, clasificador_salario, tipo_salario, pertenece_sindicato, descuento_fijo_por_sindicato)
-     
+                                    clasificador_contrato, contrato, salario.to_i, clasificador_salario, tipo_salario, pertenece_sindicato, descuento_fijo_por_sindicato)     
+    puts empleado.salario
     return empleado
 
   end
-  
+ 
   def es_dia_pago?(fecha)
     @clasificador_contrato.es_dia_pago?(fecha)
   end

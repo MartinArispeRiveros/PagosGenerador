@@ -1,5 +1,7 @@
 require ('date')
+
 class GeneradorCheque
+  
   def initialize(fecha_de_ejecucion)
     @fecha_de_ejecucion = fecha_de_ejecucion
   end

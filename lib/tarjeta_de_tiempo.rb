@@ -1,4 +1,5 @@
 require('date')
+
 class TarjetaDeTiempo
 	
 	attr_accessor :fecha, :id_empleado, :hora_ingreso, :hora_salida

@@ -2,9 +2,11 @@ class ConsolaTest
   def imprimir(cadena)
     @buffer_pant = cadena
   end
+
   def buffer_pantalla
     @buffer_pant
   end
+  
   def imprimir_cheque(cheque)
     if(cheque.fecha_emision.next_day.day!=1)
       imprimir("No se pudo imprimir el cheque, porque aun no es fin de mes")
