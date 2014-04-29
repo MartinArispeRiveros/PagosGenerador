@@ -4,13 +4,12 @@ require ('cheque')
 require('tarjeta_de_servicio')
 require('clasificador_salario_fijo')
 require ('contrato_mensual')
-require ('./empleados')
-
+require ('./repositorio')
 
 describe "Generar cheque para empleado con salario fijo" do
 
-  $empleado= Empleados.new
-  subject(:empleado) {Empleado.new('3343', 'Juan', 'Perez', Date.new(2012,1,1),ContratoMensual.new,"mensual",1243)}
+  #$empleado= Repositorio.new
+  subject(:empleado) {Empleado.new('3343', 'Juan', 'Perez', Date.new(2012,1,1),ContratoMensual.new,"mensual",1243,ClasificadorSalarioFijo.new(300, Date.new(2012,1,1)),"fijo",true,0)}
   #gestor.initialize
   before(:each) do
     empleado.clasificador_salario = ClasificadorSalarioFijo.new(300, Date.new(2012,1,1))

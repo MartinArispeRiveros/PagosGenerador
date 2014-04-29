@@ -1,0 +1,17 @@
+<center><h3> </h3></center>
+ <table class='table table-bordered'>
+		<tr class='info'>
+		  <th><center>CARNET</center></th>
+		  <th><center>NOMBRE(S)</center></th>
+		  <th><center>APELLIDO(S)</center></th>
+		</tr>
+
+		<% @lista.each do |empleado|%>
+			<tr class='active'>
+				<% datos = JSON.load empleado %>
+				<td><center><%= datos['@ci'] %></center></td>
+				<td><center><%= datos['@nombre'] %></center></td>
+				<td><center><%= datos['@apellido'] %></center></td>
+			</tr>
+		<%end%>
+	</table>

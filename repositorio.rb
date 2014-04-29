@@ -51,4 +51,13 @@ class Repositorio
   def adicionar_cheque(cheque)    
         @cheques.push(cheque)    
   end
+
+  def to_json(empleado)
+    hash = {}
+    empleado.instance_variables.each do |var|
+      hash[var] = empleado.instance_variable_get var
+    end
+    hash.to_json
+  end
+
 end

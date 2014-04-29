@@ -9,7 +9,7 @@
 		  <th></th>
 		  <th></th>
 		  <th></th>
-		  
+		  <th></th>
 		</tr>
 
 		<% @empleados.each do |empleado| %>
@@ -28,6 +28,11 @@
 		  	<% if empleado.pertenece_sindicato %>
 		  	<td><a href="/servicecard/<%= empleado.ci %>"><center>Asignar Tarjeta de servicio</center></a></td>
 		  	<% else %>
+		  	<td></td>
+		  	<% end %>
+		  	<%if !empleado.en_archivo %>
+		  	<td><a href="/save_archive/<%= empleado.ci %>"><center>Guardar en archivo</center></a></td>
+		  	<%else%>
 		  	<td></td>
 		  	<% end %>
 		  </tr>

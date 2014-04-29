@@ -4,11 +4,12 @@ require ('cheque')
 require('tarjeta_de_tiempo')
 require('clasificador_por_hora')
 require ('contrato_quincenal')
-require ('./empleados')
+require ('./repositorio')
 
 describe "Generar cheque para empleado por hora" do
- 	$empleado = Empleados.new
-  subject(:empleado) { Empleado.new('3343', 'Juan', 'Perez', Date.new(2012,1,1),ContratoQuincenal.new,"quincenal",123444) }
+ 	#$empleado = Repositorio.new
+
+  subject(:empleado) { Empleado.new('3343', 'Juan', 'Perez', Date.new(2012,1,1),ContratoQuincenal.new,"quincenal",100,ClasificadorPorHora.new(50),"hora",true,0) }
   before (@each) {
     empleado.clasificador_salario = ClasificadorPorHora.new(50)
     empleado.asignar_pago_por_hora(50)

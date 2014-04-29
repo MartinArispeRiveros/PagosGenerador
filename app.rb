@@ -1,4 +1,5 @@
 require "sinatra"
+require "json"
 require './lib/empleado'
 require './lib/clasificador_por_hora'
 require './lib/clasificador_salario_fijo'
@@ -129,6 +130,7 @@ get '/checks' do
       end
     end
   end
+  
   if $empleados_gestor.obtener_cheques != []
     @cheques = $empleados_gestor.obtener_cheques
     erb :"checks"    
@@ -192,4 +194,24 @@ get '/add' do
   $empleados_gestor.adicionar(empl_params)
   @empleados = $empleados_gestor.obtener_empleados
   erb :"index"
+end
+
+get '/save_archive/:ci' do
+  @empleado = $empleados_gestor.buscar_por_ci(params[:ci])
+  @empleado.en_archivo = true
+  archivo = $empleados_gestor.to_json(@empleado)
+  lista_empleados = File.open('archive.json', 'a')
+  lista_empleados << archivo
+  lista_empleados << "\n"
+  lista_empleados.close
+  erb :"save_archive"
+end
+
+get '/index_archive' do
+  @archivo = File.open('archive.json', 'r')
+  @lista = []
+  while empleado = @archivo.gets
+    @lista.push(empleado)
+  end
+  erb :"index_archive"
 end

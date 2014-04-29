@@ -2,7 +2,7 @@ require('date')
 
 class Empleado
   
-  attr_accessor :nombre, :apellido, :ci, :fecha_inicio_contrato, :contrato, :salario, :pertenece_sindicato, :tipo_salario, :check, :descuento_fijo_por_sindicato
+  attr_accessor :nombre, :apellido, :ci, :fecha_inicio_contrato, :contrato, :salario, :pertenece_sindicato, :tipo_salario, :check, :descuento_fijo_por_sindicato, :en_archivo
   attr_writer :clasificador_salario, :clasificador_contrato
 
   def initialize(ci, nombre, apellido, fecha_inicio_contrato,clasificador_contrato,contrato,salario,clasificador_salario, tipo_salario, pertenece_sindicato,descuento_fijo_por_sindicato)
@@ -20,6 +20,7 @@ class Empleado
     @tipo_salario = tipo_salario
     @pertenece_sindicato = pertenece_sindicato
     @check = false
+    @en_archivo = false
   end
   
   def self.crear_empleado(ci, nombre, apellido, 
@@ -27,19 +28,26 @@ class Empleado
                           salario,
                           tipo_contrato, 
                           tipo_salario, pertenece_sindicato, descuento_fijo_por_sindicato)
-                          
+
     if (tipo_contrato == 'mensual')
       clasificador_contrato = ContratoMensual.new
       contrato = "mensual"
+    else
+      clasificador_contrato = nil
     end
+
     if (tipo_contrato == 'quincenal')
       clasificador_contrato = ContratoQuincenal.new
       contrato = "quincenal"
+    else
+      clasificador_contrato = nil
     end
 
     if (tipo_contrato == 'trimestral')
       clasificador_contrato = ContratoTrimestral.new
       contrato = "trimestral"
+    else
+      clasificador_contrato = nil
     end
     
     if (tipo_salario == 'fijo')
@@ -55,9 +63,7 @@ class Empleado
     empleado = Empleado.new(ci,nombre, apellido, 
                                     fecha_inicio_contrato,
                                     clasificador_contrato, contrato, salario.to_i, clasificador_salario, tipo_salario, pertenece_sindicato, descuento_fijo_por_sindicato)     
-    puts empleado.salario
     return empleado
-
   end
  
   def es_dia_pago?(fecha)
@@ -123,6 +129,12 @@ class Empleado
   
   def contrato_trimestral?
     @clasificador_contrato.contrato_trimestral?
+  end
+
+  def from_json! string
+    JSON.load(string).each do |var, val|
+      self.instance_variable_set var, val
+    end
   end
 
 end
