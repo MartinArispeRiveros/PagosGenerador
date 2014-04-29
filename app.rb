@@ -37,8 +37,11 @@ post '/crear_empleado' do
                                      params[:empleado][:pertenece_sindicato],
                                      params[:empleado][:descuento_sindicato].to_f)
 
-
-  $empleados_gestor.adicionar(empleado)
+  if params[:empleado][:tipo_almacenamiento]
+    $empleados_gestor.adicionar_archivo(empleado)
+  else
+    $empleados_gestor.adicionar(empleado)
+  end
   @empleados = $empleados_gestor.obtener_empleados
   
   erb :"index"

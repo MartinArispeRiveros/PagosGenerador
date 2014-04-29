@@ -60,4 +60,11 @@ class Repositorio
     hash.to_json
   end
 
+  def adicionar_archivo(empleado)
+    archivo = to_json(empleado)
+    lista_empleados = File.open('archive.json', 'a')
+    lista_empleados << archivo
+    lista_empleados << "\n"
+    lista_empleados.close
+  end
 end

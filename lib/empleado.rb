@@ -2,7 +2,7 @@ require('date')
 
 class Empleado
   
-  attr_accessor :nombre, :apellido, :ci, :fecha_inicio_contrato, :contrato, :salario, :pertenece_sindicato, :tipo_salario, :check, :descuento_fijo_por_sindicato, :en_archivo
+  attr_accessor :nombre, :apellido, :ci, :fecha_inicio_contrato, :contrato, :salario, :pertenece_sindicato, :tipo_salario, :check, :descuento_fijo_por_sindicato, :en_archivo, :tipo_almacenamiento
   attr_writer :clasificador_salario, :clasificador_contrato
 
   def initialize(ci, nombre, apellido, fecha_inicio_contrato,clasificador_contrato,contrato,salario,clasificador_salario, tipo_salario, pertenece_sindicato,descuento_fijo_por_sindicato)
@@ -129,12 +129,6 @@ class Empleado
   
   def contrato_trimestral?
     @clasificador_contrato.contrato_trimestral?
-  end
-
-  def from_json! string
-    JSON.load(string).each do |var, val|
-      self.instance_variable_set var, val
-    end
   end
 
 end
