@@ -25,8 +25,8 @@ class Repositorio
         return empleado
       end
     end
-  end
-  
+  end 
+
   def actualizar(empleado)
     @empleados = @empleados.map{|emp| if (emp.ci == empleado.ci)
                                         empleado

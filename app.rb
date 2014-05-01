@@ -28,13 +28,13 @@ end
 #create 
 post '/crear_empleado' do 
   empleado = Empleado.crear_empleado(params[:empleado][:ci],
-                                     params[:empleado][:nombre],
-                                     params[:empleado][:apellido],
-                                     Date.today,
-                                     params[:empleado][:salario].to_f,
-                                     params[:empleado][:tipo_contrato],
-                                     params[:empleado][:tipo_salario],
-                                     params[:empleado][:pertenece_sindicato],
+                                     params[:empleado][:nombre], 
+                                     params[:empleado][:apellido], 
+                                     Date.today, 
+                                     params[:empleado][:salario].to_f, 
+                                     params[:empleado][:tipo_contrato], 
+                                     params[:empleado][:tipo_salario], 
+                                     params[:empleado][:pertenece_sindicato], 
                                      params[:empleado][:descuento_sindicato].to_f)
 
   if params[:empleado][:tipo_almacenamiento]
@@ -42,8 +42,8 @@ post '/crear_empleado' do
   else
     $empleados_gestor.adicionar(empleado)
   end
+
   @empleados = $empleados_gestor.obtener_empleados
-  
   erb :"index"
 end
 
@@ -54,44 +54,18 @@ end
 
 #edit
 post '/actualizar_empleado/:ci' do
+  
   empleado = $empleados_gestor.buscar_por_ci(params[:empleado][:ci])
-  empleado.ci = params[:empleado][:ci]
-  empleado.nombre = params[:empleado][:nombre]
-  empleado.apellido = params[:empleado][:apellido]
-  
-  if (params[:empleado][:tipo_contrato] == 'mensual')
-    empleado.clasificador_contrato = ContratoMensual.new()
-    empleado.contrato = "mensual"
-  end
-  if (params[:empleado][:tipo_contrato] == 'quincenal')
-    empleado.clasificador_contrato = ContratoQuincenal.new()
-    empleado.contrato = "quincenal"
-  end
+  empleado_modificado = empleado.modificar_empleado(params[:empleado][:ci], 
+                                                    params[:empleado][:nombre], 
+                                                    params[:empleado][:apellido],
+                                                    params[:empleado][:salario].to_f,
+                                                    params[:empleado][:tipo_contrato],
+                                                    params[:empleado][:tipo_salario],
+                                                    params[:empleado][:pertenece_sindicato],
+                                                    params[:empleado][:descuento_sindicato])
 
-  if (params[:empleado][:tipo_contrato] == 'trimestral')
-    empleado.clasificador_contrato = ContratoTrimestral.new()
-    empleado.contrato = "trimestral"
-  end
-  
-  if (params[:empleado][:tipo_salario] == 'fijo')
-    empleado.clasificador_salario = ClasificadorSalarioFijo.new(params[:empleado][:fecha], params[:empleado][:salario].to_f)
-    empleado.tipo_salario = "fijo"
-  end
-  if (params[:empleado][:tipo_hora] == 'hora')
-    empleado.clasificador_salario = ClasificadorPorHora.new(params[:empleado][:salario].to_f)
-    empleado.tipo_salario = 'hora'
-  end
-
-  empleado.salario = params[:empleado][:salario].to_f
-
-  if (params[:empleado][:pertenece_sindicato] = true)
-    empleado.pertenece_sindicato = true
-  end
-  if (params[:empleado][:pertenece_sindicato] = false)
-    empleado.pertenece_sindicato = false
-  end
-  
-  if ($empleados_gestor.actualizar(empleado))  
+  if ($empleados_gestor.actualizar(empleado_modificado))  
     @empleados = $empleados_gestor.obtener_empleados
     erb :"index"
   end

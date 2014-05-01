@@ -65,7 +65,50 @@ class Empleado
                                     clasificador_contrato, contrato, salario.to_i, clasificador_salario, tipo_salario, pertenece_sindicato, descuento_fijo_por_sindicato)     
     return empleado
   end
- 
+  
+  def modificar_empleado(ci, nombre, apellido, 
+                          salario,
+                          tipo_contrato, 
+                          tipo_salario, pertenece_sindicato, descuento_fijo_por_sindicato)
+    self.ci = ci
+    self.nombre = nombre
+    self.salario = salario.to_i
+    self.pertenece_sindicato = pertenece_sindicato
+    self.descuento_fijo_por_sindicato = descuento_fijo_por_sindicato
+
+    if (tipo_contrato == 'mensual')
+      self.clasificador_contrato = ContratoMensual.new
+      self.contrato = "mensual"
+    else
+      self.clasificador_contrato = nil
+    end
+
+    if (tipo_contrato == 'quincenal')
+      self.clasificador_contrato = ContratoQuincenal.new
+      self.contrato = "quincenal"
+    else
+      self.clasificador_contrato = nil
+    end
+
+    if (tipo_contrato == 'trimestral')
+      self.clasificador_contrato = ContratoTrimestral.new
+      self.contrato = "trimestral"
+    else
+      self.clasificador_contrato = nil
+    end
+    
+    if (tipo_salario == 'fijo')
+      self.clasificador_salario = ClasificadorSalarioFijo.new(salario, fecha_inicio_contrato)
+      self.tipo_salario = "fijo"
+    end
+      
+    if (tipo_salario == 'hora')
+      self.clasificador_salario = ClasificadorPorHora.new(salario)
+      self.tipo_salario = "hora"
+    end
+    return self
+  end
+
   def es_dia_pago?(fecha)
     @clasificador_contrato.es_dia_pago?(fecha)
   end
