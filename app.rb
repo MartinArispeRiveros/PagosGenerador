@@ -17,6 +17,11 @@ $empleados_gestor = Repositorio.new
 $cheques_gestor = GeneradorCheque.new(Date.today)
 
 get '/' do
+  @archivo = File.open('archive.json', 'r')
+  @lista = []
+  while empleado = @archivo.gets
+    @lista.push(empleado)
+  end
   @empleados = $empleados_gestor.obtener_empleados
   erb :"index"
 end
@@ -37,12 +42,16 @@ post '/crear_empleado' do
                                      params[:empleado][:pertenece_sindicato], 
                                      params[:empleado][:descuento_sindicato].to_f)
 
-  if params[:empleado][:tipo_almacenamiento]
-    $empleados_gestor.adicionar_archivo(empleado)
-  else
+  #if params[:empleado][:tipo_almacenamiento]
+   # $empleados_gestor.adicionar_archivo(empleado)
+  #else
     $empleados_gestor.adicionar(empleado)
+  #end
+   @archivo = File.open('archive.json', 'r')
+  @lista = []
+  while empleado = @archivo.gets
+    @lista.push(empleado)
   end
-
   @empleados = $empleados_gestor.obtener_empleados
   erb :"index"
 end
@@ -107,7 +116,6 @@ get '/checks' do
       end
     end
   end
-  
   if $empleados_gestor.obtener_cheques != []
     @cheques = $empleados_gestor.obtener_cheques
     erb :"checks"    
@@ -141,8 +149,8 @@ end
 #create timecard
 post '/create_timecard/:ci' do
   @empleado = $empleados_gestor.buscar_por_ci(params[:timecard][:id_empleado])
-  @tarjeta = TarjetaDeTiempo.new(params[:timecard][:fecha],params[:timecard][:id_empleado],params[:timecard][:hora_ingreso],params[:timecard][:hora_salida])
-  if @tarjeta.fecha != "" || @tarjeta.hora_ingreso != "" || @tarjeta.hora_salida != ""
+  @tarjeta = TarjetaDeTiempo.crear_tarjeta_tiempo(params[:timecard][:fecha],params[:timecard][:id_empleado],params[:timecard][:hora_ingreso],params[:timecard][:hora_salida])
+  if TarjetaDeTiempo.verificar_vacio(@tarjeta)
     @empleado.registrar_tarjeta_de_tiempo(@tarjeta)
     @tarjetas = @empleado.tarjetas_de_tiempo(params[:timecard][:id_empleado])
     erb :"timecard_index" 
@@ -154,23 +162,11 @@ end
 #create servicecard
 post '/create_servicecard/:ci' do
   @empleado = $empleados_gestor.buscar_por_ci(params[:servicecard][:id_empleado])
-  @tarjeta = TarjetaDeServicio.new(params[:servicecard][:fecha],params[:servicecard][:id_empleado],params[:servicecard][:monto].to_i,params[:servicecard][:descripcion])
+  @tarjeta = TarjetaDeServicio.crear_tarjeta_servicio(params[:servicecard][:fecha],params[:servicecard][:id_empleado],params[:servicecard][:monto].to_i,params[:servicecard][:descripcion])
   
     @empleado.registrar_tarjeta_de_servicio(@tarjeta)
     @tarjetas = @empleado.obtener_tarjetas_de_servicio(params[:servicecard][:id_empleado])
     erb :"servicecard_index"
-end
-
-get '/add' do
-  empl_params = Hash.new
-  empl_params[:ci] = '123'
-  empl_params[:nombre] = 'Juan'
-  empl_params[:apellido] = 'Perez'
-  empl_params[:fecha_contrato] = Date.new(2012,2,1)
-  empl_params[:tipo_contrato] = '1'
-  $empleados_gestor.adicionar(empl_params)
-  @empleados = $empleados_gestor.obtener_empleados
-  erb :"index"
 end
 
 get '/save_archive/:ci' do
@@ -191,4 +187,8 @@ get '/index_archive' do
     @lista.push(empleado)
   end
   erb :"index_archive"
+end
+
+get '/configurations' do
+  erb :"configurations"
 end

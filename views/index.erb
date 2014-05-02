@@ -9,7 +9,8 @@
 		  <th></th>
 		  <th></th>
 		  <th></th>
-		  <th></th>
+		  <th>Guardado en:</th>
+
 		</tr>
 
 		<% @empleados.each do |empleado| %>
@@ -29,13 +30,35 @@
 		  	<td><a href="/servicecard/<%= empleado.ci %>"><center>Asignar Tarjeta de servicio</center></a></td>
 		  	<% else %>
 		  	<td></td>
-		  	<% end %>
-		  	<%if !empleado.en_archivo %>
-		  	<td><a href="/save_archive/<%= empleado.ci %>"><center>Guardar en archivo</center></a></td>
-		  	<%else%>
-		  	<td></td>
-		  	<% end %>
-		  </tr>
+		  	<% end %>	
+		  	
+			<td><center>Memoria</center></td>			
 		<% end %>
+		<% @lista.each do |empleado|%>
+			<tr class='active'>
+				<% datos = JSON.load empleado %>
+				<td><center><%= datos['@ci'] %></center></td>
+				<td><center><%= datos['@nombre'] %></center></td>
+				<td><center><%= datos['@apellido'] %></center></td>
+				<td><a href="/ "><center>Editar</center></a></td>
+			    <td><a href="/ "><center>Mostrar</center></a></td>
+			    <td><a href="/"><center>Eliminar</center></a></td>
+			  	<% if datos['@tipo_salario'] == 'hora' %>
+			  	<td><a href="/"><center>Asignar Tarjeta de tiempo</center></a></td>
+			  	<% else %>
+			  	<td></td>
+			  	<% end %>
+			  	<% if datos['@pertenece_sindicato'] %>
+			  	<td><a href=""><center>Asignar Tarjeta de servicio</center></a></td>
+			  	<% else %>
+			  	<td></td>
+			  	<% end %>		 				
+			  	
+			  	
+			  	<td><center>Archivo</center></td>
+
+		<%end%>
+			</tr>		
+
 	</table>
 	<center><a href="/checks">Generar Cheques Para Nomina de Emplados</a></center>

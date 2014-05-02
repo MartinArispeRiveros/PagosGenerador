@@ -11,4 +11,8 @@ class TarjetaDeServicio
 		@monto = monto
 		@descripcion = descripcion
 	end
+	def self.crear_tarjeta_servicio(fecha,id_empleado,monto,descripcion)
+		servicio = TarjetaDeServicio.new(fecha,id_empleado,monto,descripcion)
+		return servicio
+	end
 end

@@ -4,8 +4,7 @@
 		  <th><center>Carnet</center></th>
 		  <th><center>Fecha</center></th>
 		  <th><center>Hora de Ingreso</center></th>
-		  <th><center>Hora de Salida</center></th>
-		  <th></th>
+		  <th><center>Hora de Salida</center></th>		  
 		</tr>
 
 		<% @tarjetas.each do |tarjeta| %>
@@ -13,8 +12,7 @@
 		    <td><center><%= tarjeta.id_empleado %></center></td>
 		    <td><center><%= tarjeta.fecha %></center></td>
 		    <td><center><%= tarjeta.hora_ingreso %></center></td>
-		    <td><center><%= tarjeta.hora_salida %></center></td>
-		    <td><a href="/eliminar_tt/<%= empleado.ci%>"><center>Eliminar</center></a></td>
+		    <td><center><%= tarjeta.hora_salida %></center></td>		  
 		  </tr>
 		<% end %>
 </table>
