@@ -1,0 +1,58 @@
+<h1>Empleado</h1>
+<p>
+	<b>Ci:</b>
+	<%= @empleado.ci %>
+</p>
+
+<p>
+	<b>Nombre:</b>
+	<%= @empleado.nombre %>
+</p>
+
+<p>
+	<b>Apellido:</b>
+	<%= @empleado.apellido %>
+</p>
+
+<p>
+	<b>Fecha inicio contrato:</b>
+	<%= @empleado.fecha_inicio_contrato %>
+</p>
+
+<p>
+	<b>Tipo de contrato:</b>
+	<%= @empleado.contrato %>
+</p>
+
+<p>
+	<b>Tipo de salario:</b>
+	<%= @empleado.tipo_salario %>
+</p>
+
+<p>
+	<b>Salario:</b>
+	<%= @empleado.salario%>
+</p>
+
+<p>
+	<b>Pertenece a sindicato:</b>
+
+	<% if @empleado.pertenece_sindicato == "si" %>
+	Si
+	<%else%>
+	No
+	<%end%>
+</p>
+
+<p>
+	<b>Descuento fijo por sindicato:</b>
+	<%= @empleado.descuento_fijo_por_sindicato %>
+</p>
+<% if @empleado.tipo_salario == "hora" %>
+<a href="/timecard_index/<%= @empleado.ci %>" class="btn btn-success"><center>Ver tarjetas de tiempo</center></a>
+<% end %>
+<% if @empleado.pertenece_sindicato == "si" %>
+<a href="/servicecard_index/<%= @empleado.ci %>" class="btn btn-success"><center>Ver tarjetas de servicio</center></a>
+<% end %>
+
+<a href="/" class="btn btn-primary"><center>Volver</center></a>

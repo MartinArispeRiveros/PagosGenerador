@@ -10,6 +10,8 @@ require './lib/generador_cheque'
 require './lib/tarjeta_de_tiempo'
 require './lib/tarjeta_de_servicio'
 require './repositorio'
+require './repositorio_memoria'
+require './repositorio_archivo'
 require ('date')
 require './lib/cheque'
 
@@ -17,12 +19,8 @@ $empleados_gestor = Repositorio.new
 $cheques_gestor = GeneradorCheque.new(Date.today)
 
 get '/' do
-  @archivo = File.open('archive.json', 'r')
-  @lista = []
-  while empleado = @archivo.gets
-    @lista.push(empleado)
-  end
-  @empleados = $empleados_gestor.obtener_empleados
+  @empleados_archivo = $empleados_gestor.obtener_empleados_archivo
+  @empleados_memoria = $empleados_gestor.obtener_empleados_memoria
   erb :"index"
 end
 
@@ -41,18 +39,10 @@ post '/crear_empleado' do
                                      params[:empleado][:tipo_salario], 
                                      params[:empleado][:pertenece_sindicato], 
                                      params[:empleado][:descuento_sindicato].to_f)
-
-  #if params[:empleado][:tipo_almacenamiento]
-   # $empleados_gestor.adicionar_archivo(empleado)
-  #else
-    $empleados_gestor.adicionar(empleado)
-  #end
-   @archivo = File.open('archive.json', 'r')
-  @lista = []
-  while empleado = @archivo.gets
-    @lista.push(empleado)
-  end
-  @empleados = $empleados_gestor.obtener_empleados
+  $empleados_gestor.adicionar(empleado,$repositorio)
+  @empleados_archivo = $empleados_gestor.obtener_empleados_archivo
+  @empleados_memoria = $empleados_gestor.obtener_empleados_memoria
+  puts @empleados_memoria
   erb :"index"
 end
 
@@ -63,7 +53,6 @@ end
 
 #edit
 post '/actualizar_empleado/:ci' do
-  
   empleado = $empleados_gestor.buscar_por_ci(params[:empleado][:ci])
   empleado_modificado = empleado.modificar_empleado(params[:empleado][:ci], 
                                                     params[:empleado][:nombre], 
@@ -73,22 +62,28 @@ post '/actualizar_empleado/:ci' do
                                                     params[:empleado][:tipo_salario],
                                                     params[:empleado][:pertenece_sindicato],
                                                     params[:empleado][:descuento_sindicato])
-
   if ($empleados_gestor.actualizar(empleado_modificado))  
-    @empleados = $empleados_gestor.obtener_empleados
+    @empleados_archivo = $empleados_gestor.obtener_empleados_archivo
+    @empleados_memoria = $empleados_gestor.obtener_empleados_memoria
     erb :"index"
   end
 end
 
 #show
-get "/show/:ci" do
+get "/show_memory/:ci" do
   @empleado = $empleados_gestor.buscar_por_ci(params[:ci])
-  erb :"show"
+  erb :"show_memory"
+end
+
+#show
+get "/show_archive/:ci" do
+  @empleado = $empleados_gestor.mostrar_de_archivo(params[:ci])
+  erb :"show_archive"
 end
 
 #delete
 get '/delete/:ci' do
-  @empleado = $empleados_gestor.eliminar(params[:ci])
+  @empleado = $empleados_gestor.eliminar(params[:ci],$repositorio)
   erb :"delete"
 end
 
@@ -105,8 +100,8 @@ get '/add_check/:ci' do
 end
 
 get '/checks' do
-  @empleados = $empleados_gestor.obtener_empleados
-  @empleados.each do |empleado|
+  @empleados_memoria = $empleados_gestor.obtener_empleados_memoria
+  @empleados_memoria.each do |empleado|
     if empleado.check == false
       cheque = $cheques_gestor.ejecutar(empleado)
       if cheque != nil
@@ -163,32 +158,18 @@ end
 post '/create_servicecard/:ci' do
   @empleado = $empleados_gestor.buscar_por_ci(params[:servicecard][:id_empleado])
   @tarjeta = TarjetaDeServicio.crear_tarjeta_servicio(params[:servicecard][:fecha],params[:servicecard][:id_empleado],params[:servicecard][:monto].to_i,params[:servicecard][:descripcion])
-  
-    @empleado.registrar_tarjeta_de_servicio(@tarjeta)
-    @tarjetas = @empleado.obtener_tarjetas_de_servicio(params[:servicecard][:id_empleado])
-    erb :"servicecard_index"
+  @empleado.registrar_tarjeta_de_servicio(@tarjeta)
+  @tarjetas = @empleado.obtener_tarjetas_de_servicio(params[:servicecard][:id_empleado])
+  erb :"servicecard_index"
 end
 
-get '/save_archive/:ci' do
-  @empleado = $empleados_gestor.buscar_por_ci(params[:ci])
-  @empleado.en_archivo = true
-  archivo = $empleados_gestor.to_json(@empleado)
-  lista_empleados = File.open('archive.json', 'a')
-  lista_empleados << archivo
-  lista_empleados << "\n"
-  lista_empleados.close
-  erb :"save_archive"
-end
-
-get '/index_archive' do
-  @archivo = File.open('archive.json', 'r')
-  @lista = []
-  while empleado = @archivo.gets
-    @lista.push(empleado)
-  end
-  erb :"index_archive"
-end
-
+#configurations
 get '/configurations' do
   erb :"configurations"
+end
+
+#save change in configurations
+post '/save_configurations' do
+  $repositorio = params[:tipo_almacenamiento]
+  erb :"save_configurations"
 end

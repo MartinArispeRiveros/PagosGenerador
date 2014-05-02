@@ -28,7 +28,7 @@ class Empleado
                           salario,
                           tipo_contrato, 
                           tipo_salario, pertenece_sindicato, descuento_fijo_por_sindicato)
-
+    
     if (tipo_contrato == 'mensual')
       clasificador_contrato = ContratoMensual.new
       contrato = "mensual"

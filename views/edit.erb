@@ -43,9 +43,9 @@
   <label class="col-md-4 control-label" for="tipo_contrato">Tipo de Contrato:</label>
   <div class="col-md-4">
     <select id="empleado_tipo_contrato" name="empleado[tipo_contrato]" class="form-control">
-      <option value="mensual" <%= 'selected' if @empleado.contrato_mensual? %> >Mensual</option>
-      <option value="quincenal" <%= 'selected' if @empleado.contrato_quincenal? %> >Quincenal</option>
-      <option value="trimestral" <%= 'selected' if @empleado.contrato_trimestral? %> >Trimestral</option>
+      <option value="mensual" <%= 'selected' if @empleado.contrato=="mensual" %> >Mensual</option>
+      <option value="quincenal" <%= 'selected' if @empleado.contrato=="quincenal" %> >Quincenal</option>
+      <option value="trimestral" <%= 'selected' if @empleado.contrato=="trimestral" %> >Trimestral</option>
     </select>
   </div>
 
@@ -73,14 +73,14 @@
  <label class="col-md-4 control-label" for="empleado_pertenece_sindicato">Pertenece a Sindicato:</label>
  <div class="col-md-4">
     <select name="empleado[pertenece_sindicato]" class="form-control">
-      <option value=true <%= 'selected' if @empleado.pertenece_sindicato == true %> >Si</option>
-      <option value=false <%= 'selected' if @empleado.pertenece_sindicato == false %> >No</option>
+      <option value="si" <%= 'selected' if @empleado.pertenece_sindicato == "si" %> >Si</option>
+      <option value="no" <%= 'selected' if @empleado.pertenece_sindicato == "no" %> >No</option>
     </select>
     </div>
     <br>
 </div>
 
-<%if @empleado.pertenece_sindicato == true%>
+<%if @empleado.pertenece_sindicato == "si"%>
 <div class="form-group">
   <label class="col-md-4 control-label" for="descuento_sindicato">Descuento por sindicato:</label>  
   <div class="col-md-4">
