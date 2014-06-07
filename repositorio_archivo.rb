@@ -38,6 +38,11 @@ class RepositorioArchivo
 		end
 	end
 
+	def actualizar(empleado)
+		eliminar(empleado.ci)
+		adicionar(empleado)
+	end
+
 	def eliminar(ci)
 		@lista.each do |empleado|
 			datos = JSON.load empleado

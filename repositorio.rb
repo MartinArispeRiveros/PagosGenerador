@@ -26,8 +26,12 @@ class Repositorio
     return @repositorio_memoria.buscar_por_ci(ci)
   end
 
-  def actualizar(empleado)
-    @repositorio_memoria.actualizar(empleado)
+  def actualizar(empleado, repositorio)
+    if repositorio == "memoria"
+      @repositorio_memoria.actualizar(empleado)
+    else
+      @repositorio_archivo.actualizar(empleado)
+    end
   end
 
   def mostrar_de_memoria(ci)
@@ -47,7 +51,12 @@ class Repositorio
   end
 
   def adicionar_cheque(cheque)    
-        @cheques.push(cheque)    
+    if cheque != nil
+      @cheques.push(cheque)
+      return true
+    else
+      return false
+    end
   end
 
   def obtener_cheques

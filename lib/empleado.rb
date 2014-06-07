@@ -174,4 +174,7 @@ class Empleado
     @clasificador_contrato.contrato_trimestral?
   end
 
+  def control_cheque(valor)
+    @check = valor
+  end
 end

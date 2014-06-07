@@ -1,0 +1,102 @@
+<form class="form-horizontal" action="/actualizar_empleado/:id" method="post">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Editar Empleado</legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="ci">CI:</label>  
+  <div class="col-md-4">
+  <input id="empleado_ci" name="empleado[ci]" type="text" placeholder="CI" class="form-control input-md" required="" value="<%= @empleado['@ci'] %>">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="nombre">Nombre:</label>  
+  <div class="col-md-4">
+  <input id="empleado_nombre" name="empleado[nombre]" type="text" placeholder="Nombre" class="form-control input-md" required="" value="<%= @empleado['@nombre'] %>">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="apellido">Apellido:</label>  
+  <div class="col-md-4">
+  <input id="empleado_apellido" name="empleado[apellido]" type="text" placeholder="apellido" class="form-control input-md" required="" value="<%= @empleado['@apellido'] %>">
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="fecha">Fecha Contrato:</label>  
+  <div class="col-md-4">
+  <input id="empleado_fecha" name="empleado[fecha]" type="date" placeholder="Fecha Contrato" class="form-control input-md" required="" value="<%= @empleado['@fecha_inicio_contrato'] %>">
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="tipo_contrato">Tipo de Contrato:</label>
+  <div class="col-md-4">
+    <select id="empleado_tipo_contrato" name="empleado[tipo_contrato]" class="form-control">
+      <option value="mensual" <%= 'selected' if @empleado['@contrato']=="mensual" %> >Mensual</option>
+      <option value="quincenal" <%= 'selected' if @empleado['@contrato']=="quincenal" %> >Quincenal</option>
+      <option value="trimestral" <%= 'selected' if @empleado['@contrato']=="trimestral" %> >Trimestral</option>
+    </select>
+  </div>
+
+</div>
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="tipo_salario">Tipo de Salario:</label>
+  <div class="col-md-4">
+    <select id="empleado_tipo_salario" name="empleado[tipo_salario]" class="form-control">
+      <option value="fijo" <%= 'selected' if @empleado['@tipo_salario'] == 'fijo' %> >Fijo</option>
+      <option value="hora" <%= 'selected' if @empleado['@tipo_salario'] == 'hora' %> >Por Hora</option>
+    </select>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="salario">Salario:</label>  
+  <div class="col-md-4">
+  <input id="empleado_salario" name="empleado[salario]" type="text" placeholder="salario" class="form-control input-md" required="" value="<%= @empleado['@salario'] %>">
+  </div>
+</div>
+
+<div class="form-group">
+ <label class="col-md-4 control-label" for="empleado_pertenece_sindicato">Pertenece a Sindicato:</label>
+ <div class="col-md-4">
+    <select name="empleado[pertenece_sindicato]" class="form-control">
+      <option value="si" <%= 'selected' if @empleado['@pertenece_sindicato'] == "si" %> >Si</option>
+      <option value="no" <%= 'selected' if @empleado['@pertenece_sindicato'] == "no" %> >No</option>
+    </select>
+    </div>
+    <br>
+</div>
+
+<%if @empleado['@pertenece_sindicato'] == "si"%>
+<div class="form-group">
+  <label class="col-md-4 control-label" for="descuento_sindicato">Descuento por sindicato:</label>  
+  <div class="col-md-4">
+  <input id="empleado_descuento_sindicato" name="empleado[descuento_sindicato]" type="text"  class="form-control input-md" required="">
+  </div>
+</div>
+<%end%>
+
+<!-- Button (Double) -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="confirmar"></label>
+  <div class="col-md-8">
+	  <input id="crear" type="submit" value="Actualizar" class="btn btn-primary" />
+    <a href="/" class="btn btn-primary"><center>Cancelar</center></a>
+  </div>
+</div>
+
+</fieldset>
+</form>

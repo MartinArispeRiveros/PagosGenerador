@@ -1,5 +1,5 @@
 <center><h3> </h3></center>
- <table class='table table-bordered'>
+ <table class='table table-strepeed'>
 		<tr class='info'>
 		  <th><center>CARNET</center></th>
 		  <th><center>NOMBRE(S)</center></th>
@@ -18,16 +18,16 @@
 		    <td><center><%= empleado.ci %></center></td>
 		    <td><center><%= empleado.nombre %></center></td>
 		    <td><center><%= empleado.apellido %></center></td>
-		    <td><a href="/edit/<%= empleado.ci %>"><center>Editar</center></a></td>
-		    <td><a href="/show_memory/<%= empleado.ci %>"><center>Mostrar</center></a></td>
-		    <td><a href="/delete/<%= empleado.ci %>"><center>Eliminar</center></a></td>
+		    <td><a href="/edit/<%= empleado.ci %>" class="btn btn-warning"><center>Editar</center></a></td>
+		    <td><a href="/show_memory/<%= empleado.ci %>" class="btn btn-primary"><center>Mostrar</center></a></td>
+		    <td><a href="/delete/<%= empleado.ci %>" class="btn btn-danger"><center>Eliminar</center></a></td>
 		  	<% if empleado.tipo_salario == 'hora' %>
-		  	<td><a href="/timecard/<%= empleado.ci %>"><center>Asignar Tarjeta de tiempo</center></a></td>
+		  	<td><a href="/timecard/<%= empleado.ci %>" class="btn btn-success"><center>Asignar Tarjeta de tiempo</center></a></td>
 		  	<% else %>
 		  	<td></td>
 		  	<% end %>
 		  	<% if empleado.pertenece_sindicato == "si" %>
-		  	<td><a href="/servicecard/<%= empleado.ci %>"><center>Asignar Tarjeta de servicio</center></a></td>
+		  	<td><a href="/servicecard/<%= empleado.ci %>" class="btn btn-info"><center>Asignar Tarjeta de servicio</center></a></td>
 		  	<% else %>
 		  	<td></td>
 		  	<% end %>	
@@ -40,25 +40,23 @@
 				<td><center><%= datos['@ci'] %></center></td>
 				<td><center><%= datos['@nombre'] %></center></td>
 				<td><center><%= datos['@apellido'] %></center></td>
-				<td><a href="/ "><center>Editar</center></a></td>
-			    <td><a href="/show_archive/<%= datos['@ci'] %>"><center>Mostrar</center></a></td>
-			    <td><a href="/delete/<%= datos['@ci']%>"><center>Eliminar</center></a></td>
+				<td><a href="/" class="btn btn-warning"><center>Editar</center></a></td>
+			    <td><a href="/show_archive/<%= datos['@ci'] %>" class="btn btn-primary"><center>Mostrar</center></a></td>
+			    <td><a href="/delete/<%= datos['@ci']%>" class="btn btn-danger"><center>Eliminar</center></a></td>
 			  	<% if datos['@tipo_salario'] == 'hora' %>
-			  	<td><a href="/"><center>Asignar Tarjeta de tiempo</center></a></td>
+			  	<td></td>
 			  	<% else %>
 			  	<td></td>
 			  	<% end %>
 			  	<% if datos['@pertenece_sindicato'] == "si" %>
-			  	<td><a href=""><center>Asignar Tarjeta de servicio</center></a></td>
+			  	<td></td>
 			  	<% else %>
 			  	<td></td>
 			  	<% end %>		 				
-			  	
-			  	
 			  	<td><center>Archivo</center></td>
 
 		<%end%>
 			</tr>		
 
 	</table>
-	<center><a href="/checks">Generar Cheques Para Nomina de Emplados</a></center>
+	<center><a href="/checks" class="btn btn-default">Generar Cheques Para Nomina de Emplados</a></center>
